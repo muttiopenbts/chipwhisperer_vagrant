@@ -1,2 +1,2 @@
 # chipwhisperer_vagrant
-Example vagrant file(s) for running setting up a chipwhisperer inside a vm.
+Example vagrant file(s) for setting up a chipwhisperer inside a vm.
