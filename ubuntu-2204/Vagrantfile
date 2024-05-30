@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
   #   # Customize the amount of memory on the VM:
      v.memory = "4024"
      # Passthrough chipwhisperer
-     v.usb :vendor => '0x2b3e', :product => '0xace2', :startupPolicy => "optional"
+     v.usb_controller :model => "qemu-xhci"
    end
   #
   # View the documentation for the provider you are using for more
@@ -52,47 +52,5 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    sudo apt-get update
-    sudo apt upgrade -y
-    sudo apt-get install tmux python3-pip -y
-    # chipwhisperer
-    sudo apt-get install build-essential gdb lcov pkg-config \
-    libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
-    libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
-    lzma lzma-dev tk-dev uuid-dev zlib1g-dev curl -y
-    #
-    sudo apt install libusb-dev make git avr-libc gcc-avr \
-    gcc-arm-none-eabi libusb-1.0-0-dev usbutils -y
-    #
-    # TODO: Change repo clone destination to /vagrant_data and clone once only
-    VAGRANT_SHARE='/vagrant_data'
-    CW_PATH=${VAGRANT_SHARE}'/chipwhisperer'
-    #
-    if [ ! -d "${CW_PATH}" ]; then
-      echo "${CW_PATH} does not exist.\n"
-      echo "Creating new clone of Chipwhisperer.\n"
-      cd ${VAGRANT_SHARE}
-      git clone https://github.com/newaetech/chipwhisperer
-      cd ${CW_PATH}
-      git submodule update --init jupyter
-    fi
-    #
-    cd ${CW_PATH}
-    sudo cp hardware/50-newae.rules /etc/udev/rules.d/50-newae.rules
-    sudo udevadm control --reload-rules
-    sudo groupadd -f chipwhisperer
-    sudo usermod -aG chipwhisperer $USER
-    sudo usermod -aG plugdev $USER
-    #
-    python3 -m pip install -e .
-    python3 -m pip install -r jupyter/requirements.txt
-    cd jupyter
-    python3 -m pip install nbstripout
-    python3 -m pip install -U jupyterlab
-    source ~/.profile
-    # nbstripout --install # not working
-    # Start chipwhisperer
-    # jupyter-lab & # not working
-  SHELL
+  config.vm.provision "shell", privileged: false, path: "../scripts/vm_setup.sh"
 end
