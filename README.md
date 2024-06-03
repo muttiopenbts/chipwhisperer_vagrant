@@ -9,11 +9,11 @@ Example vagrant file(s) for setting up a chipwhisperer inside a vm.
 
 ## Setup
 ```sh
-git clone <this repo>
+git clone https://github.com/muttiopenbts/chipwhisperer_vagrant.git
 ```
 Bring up Ubuntu guest os
 ```sh
-cd ubuntu-2204
+cd chipwhisperer_vagrant/ubuntu-2204
 vagrant up
 ```
 Enable usb hotplug for chipwhisperer inside vm guest
@@ -30,6 +30,16 @@ Add udev rule for chipwhisperer
 sudo cp chipwhisperer_vagrant/50-newae.rules /etc/udev/rules.d/
 ```
 Then reload udev system. Refer to project readme.
-
+## Start Jupyter notebooks from VM guest
+Login to vm from host os
+```sh
+cd chipwhisperer_vagrant/ubuntu-2204
+vagrant ssh
+```
+Start jupyter service
+```sh
+cd /vagrant_data/chipwhisperer
+jupyter-lab &
+```
 ## TODO
 Complete this readme with better detailed steps.
