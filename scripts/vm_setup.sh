@@ -21,14 +21,15 @@ if [ ! -d "${CW_PATH}" ]; then
   cd ${CW_PATH}
   git submodule update --init jupyter
 fi
-#
+# Prepare for usb hotplug from host to vm
 cd ${CW_PATH}
 sudo cp hardware/50-newae.rules /etc/udev/rules.d/50-newae.rules
 sudo udevadm control --reload-rules
 sudo groupadd -f chipwhisperer
 sudo usermod -aG chipwhisperer $USER
 sudo usermod -aG plugdev $USER
-#
+# Jupyter notebook support
+sudo apt install nodejs -y
 python3 -m pip install -e .
 python3 -m pip install -r jupyter/requirements.txt
 cd jupyter
