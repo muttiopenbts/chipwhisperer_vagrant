@@ -29,7 +29,23 @@ Add udev rule for chipwhisperer
 ```sh
 sudo cp chipwhisperer_vagrant/50-newae.rules /etc/udev/rules.d/
 ```
-Then reload udev system. Refer to project readme.
+From Host OS edit udev rule to reflect vm that chipwhisperer should be connected to.
+You will first need to determine the vm name that should be set in the udev rule.
+Obtaining the vm name
+```sh
+virsh list --all
+ Id   Name                  State
+-------------------------------------
+ 1    ubuntu-2204_default   running
+```
+Now replace ENV{CW_VM_NAME}="MY_VM" with ENV{CW_VM_NAME}="ubuntu-2204_default"
+```sh
+vi /etc/udev/rules.d/50-newae.rules
+```
+Then reload Host OS udev system.
+```sh
+sudo sh -c 'udevadm control --reload-rules && udevadm trigger'
+```
 ## Start Jupyter notebooks from VM guest
 Login to vm from host os
 ```sh
