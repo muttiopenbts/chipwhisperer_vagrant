@@ -41,5 +41,9 @@ Start jupyter service
 cd /vagrant_data/chipwhisperer
 jupyter-lab &
 ```
+An alternative to have jupyter start on all network interfaces
+```sh
+jupyter-lab --ip 0.0.0.0
+```
 ## TODO
 Complete this readme with better detailed steps.
