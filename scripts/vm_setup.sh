@@ -9,6 +9,8 @@ lzma lzma-dev tk-dev uuid-dev zlib1g-dev curl -y
 #
 sudo apt install libusb-dev make git avr-libc gcc-avr \
 gcc-arm-none-eabi libusb-1.0-0-dev usbutils -y
+# Timezone
+sudo timedatectl set-timezone America/Los_Angeles
 #
 VAGRANT_SHARE='/vagrant_data'
 CW_PATH=${VAGRANT_SHARE}'/chipwhisperer'
@@ -35,6 +37,7 @@ python3 -m pip install -r jupyter/requirements.txt
 cd jupyter
 python3 -m pip install nbstripout
 python3 -m pip install -U jupyterlab
+python3 -m pip install ipympl
 source ~/.profile
 # nbstripout --install # not working
 # Start chipwhisperer
