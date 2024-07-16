@@ -61,5 +61,13 @@ An alternative to have jupyter start on all network interfaces
 ```sh
 jupyter-lab --ip 0.0.0.0
 ```
+## Browse to Jupyter notebook
+Open a browser on the host os and you should be able to connect to the notebook on http://127.0.0.1:8888. You will need the jupyter token that will have been flashed on the terminal screen when you ran jupyter-lab command.
+
+# Trouble
+Notebook doesn't open in browser.
+The vagrant file has an entry to port redirect from host os 127.0.0.1:8888 to the vm 127.0.0.1:8888.  
+When the jupyter-lab service starts up, make sure it is listening on port 8888 and nothing else.  
+You can fix this by killing any jupter-lab process running on the vm and then restarting jupyter-lab as described above.
 ## TODO
 Complete this readme with better detailed steps.
